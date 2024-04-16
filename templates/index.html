@@ -26,6 +26,7 @@
                             <th>Codigo</th>
                             <th>Descrição</th>
                             <th>Preço</th>
+                            <th>Venda</th>
                             <th>Validade</th>
                         </tr>
                     </thead>
@@ -35,6 +36,13 @@
                             <td>{{.Plu}}</td>
                             <td>{{.Descricao}}</td>
                             <td>{{.Preco}}</td>
+                            
+                            {{if eq .Venda 1}}
+                                <td>Unitario</td>
+                            {{else}}
+                                <td>Pesavel</td>
+                            {{end}}
+                            
                             <td>{{.Validade}}</td>
                         </tr>
                         {{end}}
@@ -51,7 +59,10 @@
         <div class="card-footer">
             <form method="GET" action="file">
                 <button type="submit" value="salvar" class="btn btn-success">Arquivo de produtos</button>
-            </form>            
+            </form>    
+            <form method="GET" action="file">
+                <button type="submit" value="salvar" class="btn btn-success">Balança</button>
+            </form>         
         </div>
     </div>
 </body>
