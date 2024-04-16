@@ -46,11 +46,19 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		formCod := r.FormValue("codigo")
 		descricao := r.FormValue("descricao")
 		formPreco := r.FormValue("preco")
+		formVenda := r.FormValue("venda-select")
 		formValidade := r.FormValue("validade")
 
 		preco, err := strconv.ParseFloat(formPreco, 64)
 		if err != nil {
 			log.Println("Erro na conversão do preço:", err)
+		}
+
+		venda, err := strconv.Atoi(formVenda)
+		if err != nil {
+			log.Println("Erro na conversão do preço:", err)
+		} else {
+			fmt.Println(venda)
 		}
 
 		codigo, err := strconv.Atoi(formCod)
@@ -63,7 +71,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 			log.Println("Erro na conversão do quantidade:", err)
 		}
 
-		models.CriaNovoProduto(descricao, preco, codigo, validade)
+		models.CriaNovoProduto(descricao, preco, codigo, venda, validade)
 	}
 	http.Redirect(w, r, "/", 301)
 }
@@ -73,11 +81,19 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		formCod := r.FormValue("codigo")
 		descricao := r.FormValue("descricao")
 		formPreco := r.FormValue("preco")
+		formVenda := r.FormValue("venda-select")
 		formValidade := r.FormValue("validade")
 
 		preco, err := strconv.ParseFloat(formPreco, 64)
 		if err != nil {
 			log.Println("Erro na conversão do preço:", err)
+		}
+
+		venda, err := strconv.Atoi(formVenda)
+		if err != nil {
+			log.Println("Erro na conversão do preço:", err)
+		} else {
+			fmt.Println(venda)
 		}
 
 		codigo, err := strconv.Atoi(formCod)
@@ -96,7 +112,7 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if pluExist {
-			models.EditProduct(descricao, preco, codigo, validade)
+			models.EditProduct(descricao, preco, codigo, venda, validade)
 		}
 	}
 	http.Redirect(w, r, "/", 301)

@@ -13,14 +13,14 @@ var (
 )
 
 func FinderFile() string {
-	mutex.Lock()
-	defer mutex.Unlock()
+	// mutex.Lock()
+	// defer mutex.Unlock()
 
-	// Verifica se já existe uma janela de diálogo aberta
-	if dialogOpen {
-		fmt.Println("Janela de diálogo já está aberta.")
-		return ""
-	}
+	// // Verifica se já existe uma janela de diálogo aberta
+	// if dialogOpen {
+	// 	fmt.Println("Janela de diálogo já está aberta.")
+	// 	return ""
+	// }
 
 	// Marca que a janela de diálogo está aberta
 	dialogOpen = true
@@ -30,28 +30,28 @@ func FinderFile() string {
 	filePath, err := dialog.File().Title("Selecione um arquivo").Load()
 	if err != nil {
 		fmt.Println(err)
-		mutex.Lock()
+		// mutex.Lock()
 		dialogOpen = false
-		mutex.Unlock()
+		// mutex.Unlock()
 		return ""
 	}
 
 	// Verifica se o usuário cancelou a seleção
-	if filePath == "" {
-		fmt.Println("Seleção de arquivo cancelada pelo usuário.")
-		mutex.Lock()
-		dialogOpen = false
-		mutex.Unlock()
-		return ""
-	}
+	// if filePath == "" {
+	// 	fmt.Println("Seleção de arquivo cancelada pelo usuário.")
+	// 	mutex.Lock()
+	// 	dialogOpen = false
+	// 	mutex.Unlock()
+	// 	return ""
+	// }
 
 	// Imprime o caminho do arquivo selecionado
 	fmt.Printf("Caminho do arquivo selecionado: %s\n", filePath)
 
 	// Marca que a janela de diálogo foi fechada
-	mutex.Lock()
-	dialogOpen = false
-	mutex.Unlock()
-
+	// mutex.Lock()
+	// dialogOpen = false
+	// mutex.Unlock()
+	fmt.Println("teste")
 	return filePath
 }

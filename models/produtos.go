@@ -11,6 +11,7 @@ type Produto struct {
 	Plu       int
 	Descricao string
 	Preco     float64
+	Venda     int
 	Validade  int
 }
 
@@ -37,11 +38,11 @@ func BuscaTodosOsProdutos() []Produto {
 	produtos := []Produto{}
 
 	for selectDeTodosOsProdutos.Next() {
-		var id, plu, validade int
+		var id, plu, validade, venda int
 		var descricao string
 		var preco float64
 
-		err = selectDeTodosOsProdutos.Scan(&id, &plu, &descricao, &preco, &validade)
+		err = selectDeTodosOsProdutos.Scan(&id, &plu, &descricao, &venda, &validade, &preco)
 		if err != nil {
 			fmt.Println(err.Error())
 		}
@@ -49,6 +50,7 @@ func BuscaTodosOsProdutos() []Produto {
 		p.Plu = plu
 		p.Descricao = descricao
 		p.Preco = preco
+		p.Venda = venda
 		p.Validade = validade
 
 		produtos = append(produtos, p)
@@ -56,29 +58,29 @@ func BuscaTodosOsProdutos() []Produto {
 	defer db.Close()
 	return produtos
 }
-func CriaNovoProduto(descricao string, preco float64, plu, validade int) {
+func CriaNovoProduto(descricao string, preco float64, plu, venda, validade int) {
 	db := db.ConectDb()
 
-	insereDadosNoBanco, err := db.Prepare("insert into produtos(plu, descricao, preco, validade) values($1, $2, $3, $4)")
+	insereDadosNoBanco, err := db.Prepare("insert into produtos(plu, descricao, preco, venda, validade) values($1, $2, $3, $4, $5)")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
-	insereDadosNoBanco.Exec(plu, descricao, preco, validade)
+	insereDadosNoBanco.Exec(plu, descricao, preco, venda, validade)
 	defer db.Close()
 
 }
 
-func EditProduct(descricao string, preco float64, plu, validade int) {
+func EditProduct(descricao string, preco float64, plu, venda, validade int) {
 	db := db.ConectDb()
-	query := "UPDATE produtos SET descricao = ?, preco = ?, validade = ? WHERE plu = ?"
+	query := "UPDATE produtos SET descricao = ?, preco = ?, venda = ?, validade = ? WHERE plu = ?"
 
 	insereDadosNoBanco, err := db.Prepare(query)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
-	insereDadosNoBanco.Exec(descricao, preco, validade, plu)
+	insereDadosNoBanco.Exec(descricao, preco, venda, validade, plu)
 	defer db.Close()
 }
 
