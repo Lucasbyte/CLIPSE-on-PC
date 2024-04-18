@@ -52,6 +52,6 @@ func FinderFile() string {
 	// mutex.Lock()
 	// dialogOpen = false
 	// mutex.Unlock()
-	fmt.Println("teste")
+
 	return filePath
 }

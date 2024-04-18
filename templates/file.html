@@ -6,21 +6,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <title>Alura loja</title>
 </head>
-<nav class="navbar navbar-light bg-light mb-4">
-    <a class="navbar-brand" href="/">CLIPSE + PC</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <a class="navbar-brand text-white font-weight-bold" href="/">CLIPSE + PC</a>
 </nav>
-<div class="container">
 
-    <body>
-        <div class="jumbotron jumbotron-fluid">
+<body class="bg-primary font-weight-light text-white">
+
+
+    <div class="container bg-dark">
+
+
+        <div class="jumbotron jumbotron-fluid bg-dark">
             <div class="container">
-                <h1 class="display-5">Arquivo</h1>
+                <h1 class="font-weight-light">Arquivo de importação</h1>
                 <label>{{.Caminho}}</label>
                 <p class="lead">Insira os detalhes</p>
             </div>
@@ -36,34 +41,41 @@
             <div class="row">
                 <div class="col-sm-8">
                     <div class="form-group">
+                        <label for="descricao">Venda:</label>
+                        <select name="arquivo" id="arquivo">
+                            <option value="{{.Caminho}}">{{.Caminho}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
                         <div>
-                            <input type="radio" id="txitens" name="tipo" value="txitens" checked />
+                            <input type="radio" id="txitens" name="tipo" value="Txitens" checked />
                             <label for="txitens">Txitens</label>
-                          </div>
-                        
-                          <div>
-                            <input type="radio" id="itensmgv" name="tipo" value="itensmgv" />
+                        </div>
+
+                        <div>
+                            <input type="radio" id="itensmgv" name="tipo" value="ItensMGV" />
                             <label for="itensmgv">Itensmgv</label>
-                          </div>
-                        
-                          <div>
-                            <input type="radio" id="csv" name="tipo" value="csv" />
+                        </div>
+
+                        <div>
+                            <input type="radio" id="csv" name="tipo" value="CSV" />
                             <label for="csv">Csv</label>
-                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" value="salvar" class="btn btn-success">Puxar dados</button>
-            <a class="btn btn-info" href="/">Voltar</a>
+            <button type="submit" value="salvar" class="btn btn-primary">Puxar dados</button>
+            <a class="btn btn-warning" href="/">Voltar</a>
+            
         </form>
-    </body>
-
-</html>
-</div>
+        <br>
+    </div>
 </body>
 
 </html>
 {{end}}
-
-

@@ -17,7 +17,7 @@ func createDatabaseIfNotExists(db *sql.DB) error {
             CREATE TABLE IF NOT EXISTS produtos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
 				plu INTEGER UNIQUE CHECK(plu <= 200),
-            	descricao TEXT CHECK(length(descricao) <= 13),
+            	descricao TEXT CHECK(length(descricao) <= 15),
 				venda INTEGER CHECK(venda <= 10),
                 validade INTEGER CHECK(validade <= 200),
 				preco DOUBLE CHECK(preco < 1000)
@@ -37,7 +37,7 @@ func createDatabaseIfNotExists(db *sql.DB) error {
 
 func init() {
 	// Abre a conexão com o banco de dados
-	db, err := sql.Open("sqlite3", "new_andine.db")
+	db, err := sql.Open("sqlite3", "andine.db")
 	if err != nil {
 		fmt.Println(err)
 		return

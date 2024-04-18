@@ -13,16 +13,19 @@
         crossorigin="anonymous"></script>
     <title>Alura loja</title>
 </head>
-<nav class="navbar navbar-light bg-light mb-4">
-    <a class="navbar-brand" href="/">CLIPSE + PC</a>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <a class="navbar-brand text-white font-weight-bold" href="/">CLIPSE + PC</a>
 </nav>
 
-<body>
+<body class="bg-dark">
     <div class="container">
         <form method="POST" action="drop">
             <section class="card">
+                <div class="card-footer bg-dark">
+                    <button type="submit" value="salvar" class="btn btn-primary">Deletar Selecionados</button>
+                </div>
                 <div>
-                    <table class="table table-striped table-hover mb-0">
+                    <table class="table table-striped table-hover table-dark tmb-0">
                         <thead>
                             <tr>
                                 <th>Codigo</th>
@@ -47,9 +50,11 @@
                     </table>
                 </div>
             </section>
-            <div class="card-footer">
-                <a href="/" class="btn btn-primary mb-2">Voltar</a>
-                <button type="submit" value="salvar" class="btn btn-success">Deletar Selecionados</button>
+            <div class="card-footer bg-dark">
+                <button type="submit" value="salvar" class="btn btn-primary">Deletar Selecionados</button>
+                <br>
+                <br>
+                <a href="/" class="btn btn-warning mb-2">Voltar</a>
             </div>
         </form>
     </div>

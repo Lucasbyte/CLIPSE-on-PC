@@ -17,19 +17,21 @@ type Produto struct {
 
 func ExisteProduto(plu int) (bool, error) {
 	db := db.ConectDb()
-	query := fmt.Sprintf("select * from produtos where plu = %d", plu)
-	fmt.Println(query)
-	_, err := db.Query(query)
+	defer db.Close()
+
+	var count int
+	err := db.QueryRow("SELECT COUNT(*) FROM produtos WHERE plu = ?", plu).Scan(&count)
 	if err != nil {
 		return false, err
 	}
-	return true, nil
+
+	return count > 0, nil
 }
 
 func BuscaTodosOsProdutos() []Produto {
 	db := db.ConectDb()
 
-	selectDeTodosOsProdutos, err := db.Query("select * from produtos")
+	selectDeTodosOsProdutos, err := db.Query("select * from produtos ORDER BY plu")
 	if err != nil {
 		fmt.Println(err.Error())
 	}
@@ -66,7 +68,12 @@ func CriaNovoProduto(descricao string, preco float64, plu, venda, validade int) 
 		fmt.Println(err.Error())
 	}
 
-	insereDadosNoBanco.Exec(plu, descricao, preco, venda, validade)
+	result, err := insereDadosNoBanco.Exec(plu, descricao, preco, venda, validade)
+	if err != nil {
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println(result)
+	}
 	defer db.Close()
 
 }

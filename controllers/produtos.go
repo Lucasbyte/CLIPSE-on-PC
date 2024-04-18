@@ -141,6 +141,14 @@ func Drop(w http.ResponseWriter, r *http.Request) {
 
 func Push(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
+		filePath := r.FormValue("arquivo")
+		tipo := r.FormValue("tipo")
+		file := models.File{
+			Caminho: filePath,
+			Tipo:    tipo,
+		}
+		fmt.Println(file)
+		file.LerArquivoDados()
 		fmt.Println("Post file page: ")
 	}
 	http.Redirect(w, r, "/", 301)

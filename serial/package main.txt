@@ -1,0 +1,70 @@
+package main
+
+import (
+	"fmt"
+	"log"
+	"math/rand"
+	"strings"
+	"time"
+)
+
+func testPort(p string) bool {
+	porta, err := serial.OpenPort(&serial.Config{
+		Name:        p,
+		Baud:        9600,
+		Size:        8,
+		Parity:      serial.ParityNone,
+		StopBits:    serial.Stop1,
+		ReadTimeout: time.Second,
+	})
+	if err != nil {
+		fmt.Println("Erro ao abrir porta serial:", err)
+		return false
+	}
+
+	fmt.Println(porta)
+	return true
+}
+
+func listarItens(p string) {
+	origem := "app\\static\\CSV\\itensCSV.csv"
+
+	porta, err := serial.OpenPort(&serial.Config{
+		Name:        p,
+		Baud:        9600,
+		Size:        8,
+		Parity:      serial.ParityNone,
+		StopBits:    serial.Stop1,
+		ReadTimeout: time.Second,
+	})
+	if err != nil {
+		log.Fatalf("Erro ao abrir porta serial: %v", err)
+	}
+
+	fmt.Println(porta)
+
+	text := "\x02001\x02"
+	_, err = porta.Write([]byte(text))
+	if err != nil {
+		log.Fatalf("Erro ao escrever na porta serial: %v", err)
+	}
+
+	buf := make([]byte, 3)
+	n, err := porta.Read(buf)
+	if err != nil {
+		log.Fatalf("Erro ao ler da porta serial: %v", err)
+	}
+
+	fmt.Println(string(buf[:n]))
+}
+
+func main() {
+	porta := "COM1"
+
+	if testPort(porta) {
+		fmt.Printf("Porta %s disponível.\n", porta)
+		listarItens(porta)
+	} else {
+		fmt.Printf("Porta %s não disponível.\n", porta)
+	}
+}

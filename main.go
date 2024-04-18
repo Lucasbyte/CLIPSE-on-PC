@@ -10,5 +10,6 @@ import (
 func main() {
 	fmt.Println()
 	routes.CarregaRotas()
+	//models.ItensMGV("Teste")
 	http.ListenAndServe(":8000", nil)
 }
