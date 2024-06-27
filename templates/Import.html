@@ -1,0 +1,129 @@
+{{define "Import"}}
+{{template "_head"}}
+{{template "_nav"}}
+
+<body class="bg-dark font-weight-light text-white">
+    <br>
+    <div class="container card bg-dark">
+        <br>
+
+        <div class="jumbotron jumbotron-fluid bg-primary">
+            <div class="container">
+                <h1 class="display-5">Importação dos dados</h1>
+                <p class="display-5">Ajuste a configuração e faça o envio dos dados</p>
+                <h3 class="display-5">Data envio aterior: <span id="data">{{.EventDate}}</span></h3>
+            </div>
+        </div>
+        <form id="importForm" method="POST" action="send">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="porta">Porta:</label>
+                        <input type="number" name="porta" class="form-control" max="99" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="velocidade">Velocidade:</label>
+                        <select class="form-control" name="velocidade-select" id="venda-select">
+                            <option value="9600" selected>9600</option>
+                            <option value="115200">115200</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="velocidade">Forma de Importação:</label>
+                        <select class="form-control" name="import-select" id="import-select">
+                            <option value="Somente novidades" selected>Eviar apenas novidades</option>
+                            <option value="Total">Envio completo das informações</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-group" data-bs-toggle="buttons">
+                <label
+                    class="btn btn-warning"
+                >
+                    <input
+                        type="radio"
+                        class="me-2"
+                        name="tipo"
+                        id=""
+                        autocomplete="off"
+                        value="1"
+                        
+                    />
+                    Apagar produtos que não estão no programa
+                </label>
+                <label
+                    class="btn btn-info"
+                >
+                    <input type="radio" name="tipo" id="" autocomplete="on" value="2"  checked/> 
+                    Apenas enviar os produtos
+                </label>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <button type="submit" value="salvar" class="btn btn-success" onclick="startImport(event)">Salvar</button>
+                        <a class="btn btn-info" href="/">Voltar</a>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </form>
+
+        <div class="progress-bar mt-3"
+            style="display:none; width: 100%; background-color: #f3f3f3; border-radius: 4px;">
+            <div class="progress bg-primary" id="progress"
+                style="width: 0%; height: 24px; text-align: center; line-height: 24px; color: white;">0%</div>
+        </div>
+
+        <div class="cronometro">
+            <div class="tempo" id="tempo">00:00:00</div>
+            <!-- <div class="botoes">
+                <button onclick="iniciarCronometro()">Iniciar</button>
+                <button onclick="pausarCronometro()">Pausar</button>
+                <button onclick="reiniciarCronometro()">Reiniciar</button>
+            </div> -->
+        </div>
+
+        <p id="status" style="color: white;"><span id="ellipsis"></span></p>
+
+
+        <br>
+    </div>
+    <br>
+    {{template "_footer"}}
+</body>
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        data = document.getElementById("data").textContent
+        dataFormatada = formatarData(data)
+        document.getElementById("data").textContent = dataFormatada
+    })
+
+    window.addEventListener('beforeunload', function (e) {
+            var confirmationMessage = 'Você tem certeza que deseja sair desta página?';
+
+            (e || window.event).returnValue = confirmationMessage; // Para o IE e Firefox
+            return confirmationMessage; // Para os outros navegadores
+        });
+
+        // Função para redirecionar para a URL /import
+        function redirecionar() {
+            if (confirm('Você realmente deseja sair da página?')) {
+                window.location.href = "/import";
+            }
+        }
+</script>
+
+</html>
+{{end}}

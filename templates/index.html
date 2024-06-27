@@ -1,70 +1,129 @@
 {{define "Index"}}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-        crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-    <title>Alura loja</title>
-</head>
-<nav class="navbar navbar-expand-lg navbar-light bg-primary">
-    <a class="navbar-brand text-white font-weight-bold" href="/">CLIPSE + PC</a>
-</nav>
+{{template "_head"}}
+{{template "_nav"}}
 
 <body class="bg-dark">
+    <br>
     <div class="container">
-        <div class="card-footer bg-dark">
-            <a href="/new" class="btn btn-primary mb-2">Criar novo produto</a>
-            <a href="/update" class="btn btn-primary mb-2">Editar produto</a>
-            <a href="/delete" class="btn btn-primary mb-2">Excluir produto</a>
-            <a href="/file" class="btn btn-primary mb-2">Arquivo de importação</a>
-            <a href="/" class="btn btn-primary mb-2">Balança</a>
-        </div>
         <section class="card">
             <div>
                 <table class="table table-striped table-dark table-hover mb-0">
                     <thead>
-                        <tr>
-                            <th>Codigo</th>
-                            <th>Descrição</th>
-                            <th>Preço</th>
-                            <th>Venda</th>
-                            <th>Validade</th>
+                        <tr style="text-align: center;">
+                            <th colspan="5">Tabela de Produtos</th>
+                            <th>
+                                <input id="searchPluDescription" class="form-control mr-2" style="width: 15rem;"
+                                    type="text" maxlength="15" placeholder="Descrição">
+                            </th>
+                            <th colspan="4" class="d-flex flex-row">
+                                <input id="searchPlu" class="form-control mr-2" style="width: 6rem;" type="number"
+                                    max="200" placeholder="código">
+                                <button class="btn btn-primary mr-2" onclick="scrollToId()">
+                                    <i class="bi bi-search"></i>
+
+                                </button>
+                                <button class="btn btn-primary" onclick="exibeNew()">
+                                    <i class="">+</i>
+                                </button>
+                            </th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {{range .}}
-                        <tr>
-                            <td>{{.Plu}}</td>
-                            <td>{{.Descricao}}</td>
-                            <td>{{.Preco}}</td>
-                            
-                            {{if eq .Venda 1}}
-                                <td>Unitario</td>
-                            {{else}}
-                                <td>Pesavel</td>
-                            {{end}}
-                            
-                            <td>{{.Validade}}</td>
-                        </tr>
-                        {{end}}
-                    </tbody>
-                </table>
             </div>
-            <div class="card-footer bg-dark">
-                <a href="/new" class="btn btn-primary mb-2">Criar novo produto</a>
-                <a href="/update" class="btn btn-primary mb-2">Editar produto</a>
-                <a href="/delete" class="btn btn-primary mb-2">Excluir produto</a>
-                <a href="/file" class="btn btn-primary mb-2">Arquivo de importação</a>
-                <a href="/" class="btn btn-primary mb-2">Balança</a>
-            </div>
+            <thead>
+                <tr style="text-align: center;">
+                    <th></th>
+                    <th>Codigo</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Venda</th>
+                    <th>Validade</th>
+                    <th>Excluir</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="newPlu" style="display: none;">
+                    <td>
+                        <input id="plu-new" class="input-plu-new form-control" type="number"
+                            style="width: 5rem; margin: 0 auto;" max="200">
+                    </td>
+                    <td>
+                        <input id="descricao-new" class="input-plu-new form-control" type="text"
+                            style="width: 10rem; margin: 0 auto;" value="" maxlength="15">
+                    </td>
+                    <td>
+                        <input id="preco-new" class="input-plu-new form-control" type="number"
+                            style="width: 5rem; margin: 0 auto;" value="" max="999.99">
+                    </td>
+                    <td>
+                        <input id="venda-new" class="input-plu-new form-control" type="text"
+                            style="width: 10rem; margin: 0 auto;" value="Unitario">
+                    </td>
+                    <td>
+                        <input id="validade-new" class="input-plu-new form-control" type="number"
+                            style="width: 5rem; margin: 0 auto;" value="" max="200">
+                    </td>
+                    <td colspan="2" style="text-align: center;">
+                        <button class="btn btn-primary" onclick="novo()">Salvar</button>
+                    </td>
+                </tr>
+
+
+
+                {{range .}}
+                <tr style="text-align: center;" id="row-{{.Plu}}">
+                    <td>
+                        <button onclick="editar('{{.Plu}}')" class="input-plu-{{.Plu}} btn btn-warning">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button onclick="coletarDados('{{.Plu}}')" class="input-plu-{{.Plu}} btn btn-primary"
+                            style="display: none;">
+                            <i class="bi bi-save2"></i>
+                        </button>
+                    </td>
+                    <td id="{{.Plu}}">{{.Plu}}</td>
+                    <td class="form-plu">
+                        <span class="input-plu-{{.Plu}}">{{.Descricao}}</span>
+                        <input name="descricao-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="text"
+                            style="display: none; width: 10rem;" value="{{.Descricao}}" maxlength="15">
+                    </td>
+                    <td class="form-plu">
+                        <span class="input-plu-{{.Plu}} real">{{.Preco}}</span>
+                        <input name="preco-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="number"
+                            style="display: none; width: 5rem;" value="{{.Preco}}" max="999.99">
+                    </td>
+
+                    {{if eq .Venda 1}}
+                    <td class="form-plu">
+                        <span class="input-plu-{{.Plu}}">Unitario</span>
+                        <input name="venda-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="select"
+                            style="display: none; width: 10rem;" value="Unitario">
+                    </td>
+                    {{else}}
+                    <td class="form-plu">
+                        <span class="input-plu-{{.Plu}}">Pesavel</span>
+                        <input name="venda-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="select"
+                            style="display: none; width: 10rem;" value="Pesavel">
+                    </td>
+                    {{end}}
+                    <td class="form-plu">
+                        <span class="input-plu-{{.Plu}}">{{.Validade}} Dias</span>
+                        <input name="validade-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="number"
+                            style="display: none; width: 5rem;" value="{{.Validade}}" max="200">
+                    </td>
+                    <td>
+                        <button onclick="excluir('{{.Plu}}')" class="btn btn-danger">
+                            <i class="bi bi-trash2-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+
+            </table>
         </section>
     </div>
+    <br>
+    {{template "_footer"}}
 </body>
 
 </html>
