@@ -5,7 +5,9 @@ serial/import.go
 *.db
 *.mod
 *.exe
+*.txt
 *.sum
 
 #Arquivos gerados pelo programa e de teste
-template/teste
+templates/TESTE/
+SYSTEL-ARQUIVOS/
