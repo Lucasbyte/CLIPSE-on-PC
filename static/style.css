@@ -8,6 +8,11 @@
     width: auto;
 }
 
+.fw-bold {
+    font-weight: bold;
+}
+
+
 .nav-link {
     color: white !important;
     font-size: 1.1rem;

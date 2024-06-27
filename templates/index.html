@@ -92,19 +92,25 @@
                             style="display: none; width: 5rem;" value="{{.Preco}}" max="999.99">
                     </td>
 
-                    {{if eq .Venda 1}}
+                    
                     <td class="form-plu">
-                        <span class="input-plu-{{.Plu}}">Unitario</span>
+                        {{if eq .Venda 1}}
+                            <span class="input-plu-{{.Plu}}">Unitario</span>
+                        {{else}}
+                            <span class="input-plu-{{.Plu}}">Pesavel</span>
+                        {{end}}
+                        <div class="form-group input-plu-{{.Plu}}" style="display: none; width: 10rem;">
+                            <select name="venda-{{.Plu}}" class="form-control" id="venda-select">
+                                <option value="0">Pesavel</option>
+                                <option value="1">Unitario</option>
+                            </select>
+                        </div>
+                        <!-- <input name="venda-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="select"
+                             value="Unitario">
                         <input name="venda-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="select"
-                            style="display: none; width: 10rem;" value="Unitario">
+                            style="display: none; width: 10rem;" value="Pesavel"> -->
                     </td>
-                    {{else}}
-                    <td class="form-plu">
-                        <span class="input-plu-{{.Plu}}">Pesavel</span>
-                        <input name="venda-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="select"
-                            style="display: none; width: 10rem;" value="Pesavel">
-                    </td>
-                    {{end}}
+                    
                     <td class="form-plu">
                         <span class="input-plu-{{.Plu}}">{{.Validade}} Dias</span>
                         <input name="validade-{{.Plu}}" class="input-plu-{{.Plu}} form-control" type="number"
