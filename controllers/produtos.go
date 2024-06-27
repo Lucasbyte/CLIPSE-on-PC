@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/lucasbyte/go-clipse/db"
 	"github.com/lucasbyte/go-clipse/models"
@@ -36,15 +37,10 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	temp.ExecuteTemplate(w, "Delete", todosOsProdutos)
 }
 
-func File(w http.ResponseWriter, r *http.Request) {
-	file := models.NewFile()
-	temp.ExecuteTemplate(w, "File", file)
-}
-
 func Insert(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		formCod := r.FormValue("codigo")
-		descricao := r.FormValue("descricao")
+		descricao := strings.ToUpper(r.FormValue("descricao"))
 		formPreco := r.FormValue("preco")
 		formVenda := r.FormValue("venda-select")
 		formValidade := r.FormValue("validade")
@@ -73,13 +69,13 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 
 		models.CriaNovoProduto(descricao, preco, codigo, venda, validade)
 	}
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func Edit(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		formCod := r.FormValue("codigo")
-		descricao := r.FormValue("descricao")
+		descricao := strings.ToUpper(r.FormValue("descricao"))
 		formPreco := r.FormValue("preco")
 		formVenda := r.FormValue("venda-select")
 		formValidade := r.FormValue("validade")
@@ -112,10 +108,10 @@ func Edit(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if pluExist {
-			models.EditProduct(descricao, preco, codigo, venda, validade)
+			models.EditProduct(descricao, preco, codigo, venda, validade, "user")
 		}
 	}
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
 func Drop(w http.ResponseWriter, r *http.Request) {
@@ -136,20 +132,12 @@ func Drop(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }
 
-func Push(w http.ResponseWriter, r *http.Request) {
+func EnviarDados(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
-		filePath := r.FormValue("arquivo")
-		tipo := r.FormValue("tipo")
-		file := models.File{
-			Caminho: filePath,
-			Tipo:    tipo,
-		}
-		fmt.Println(file)
-		file.LerArquivoDados()
-		fmt.Println("Post file page: ")
+		models.ObterCodigosFaltantes()
 	}
-	http.Redirect(w, r, "/", 301)
+	http.Redirect(w, r, "/", http.StatusMovedPermanently)
 }

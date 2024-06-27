@@ -29,7 +29,7 @@ func FinderFile() string {
 	// Exibe a janela de diálogo para selecionar um arquivo
 	filePath, err := dialog.File().Title("Selecione um arquivo").Load()
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("erro: ", err)
 		// mutex.Lock()
 		dialogOpen = false
 		// mutex.Unlock()

@@ -39,7 +39,6 @@ func ItensMGV(caminho string) {
 		descricao := strings.TrimSpace(linha[18:33])
 		fmt.Println(linha[2:9], linha[9:15], linha[15:18], linha[18:33])
 		produto := Produto{
-			Id:        plu, // Seu código para definir o ID do produto
 			Plu:       plu,
 			Descricao: descricao,
 			Preco:     preco,
@@ -64,7 +63,15 @@ func ItensMGV(caminho string) {
 			//fmt.Println(existe)
 
 			if existe {
-				EditProduct(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade)
+				Ehigual, err := ComparaDB(p.Plu, p.Descricao, p.Preco, p.Venda, p.Validade)
+				if err != nil {
+					fmt.Println(err)
+					return
+				}
+				if Ehigual {
+					continue
+				}
+				EditProduct(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade, "import")
 			} else {
 				CriaNovoProduto(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade)
 			}

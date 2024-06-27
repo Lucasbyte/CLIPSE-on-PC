@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
+	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -20,18 +21,42 @@ func createDatabaseIfNotExists(db *sql.DB) error {
             	descricao TEXT CHECK(length(descricao) <= 15),
 				venda INTEGER CHECK(venda <= 10),
                 validade INTEGER CHECK(validade <= 200),
-				preco DOUBLE CHECK(preco < 1000)
+				preco DOUBLE CHECK(preco < 1000),
+				createdAt DATE,
+				updatedAt DATE,
+				updateBy TEXT CHECK(length(descricao) <= 30)
             );
         `)
 		if err != nil {
 			return err
 		}
-		fmt.Println("Banco de dados e tabela criados com sucesso.")
 	} else if err != nil {
 		// Em caso de erro ao verificar a existência do arquivo
 		return err
 	}
+	err = createTableBal(db)
+	if err != nil {
+		return err
+	}
+	fmt.Println("Banco de dados e tabela criados com sucesso.")
+	return nil
+}
 
+func createTableBal(db *sql.DB) error {
+	_, err := db.Exec(`
+            CREATE TABLE IF NOT EXISTS balancas (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+            	descricao TEXT CHECK(length(descricao) <= 30),
+				event_date DATE
+            );
+        `)
+	if err != nil {
+		return err
+	}
+	eventName := "Go Workshop"
+	eventDate := time.Now()
+	_, err = db.Exec("INSERT INTO balancas (descricao, event_date) VALUES (?, ?)", eventName, eventDate)
+	fmt.Println(err)
 	return nil
 }
 

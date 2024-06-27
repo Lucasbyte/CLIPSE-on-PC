@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/lucasbyte/go-clipse/file"
@@ -21,13 +22,18 @@ func NewFile() File {
 	return file
 }
 
+var funcMap = map[string]func(string){
+	"CSV":      Csv,
+	"Txitens":  Txitens,
+	"ItensMGV": ItensMGV,
+	"CADTXT":   CAD,
+}
+
 func (f File) LerArquivoDados() {
 	caminho := strings.Replace(f.Caminho, "\\", "/", -1)
-	if f.Tipo == "CSV" {
-		Csv(caminho)
-	} else if f.Tipo == "Txitens" {
-		Txitens(caminho)
-	} else if f.Tipo == "ItensMGV" {
-		ItensMGV(caminho)
+	if fn, exists := funcMap[f.Tipo]; exists {
+		fn(caminho)
+	} else {
+		fmt.Println("Tipo desconhecido:", f.Tipo)
 	}
 }

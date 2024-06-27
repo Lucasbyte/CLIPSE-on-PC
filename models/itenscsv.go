@@ -62,7 +62,7 @@ func Csv(caminho string) {
 		}
 		fmt.Println(existe)
 		if existe {
-			EditProduct(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade)
+			EditProduct(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade, "import")
 		} else {
 			fmt.Println("Teste")
 			fmt.Println(p.Descricao, p.Preco, p.Plu, p.Venda, p.Validade)
