@@ -1,0 +1,8 @@
+# Sensivel 
+serial/import.go
+
+# Dependencias
+*.db
+*.mod
+*.exe
+*.sum
