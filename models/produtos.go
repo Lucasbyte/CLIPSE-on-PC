@@ -34,6 +34,7 @@ func ExisteProduto(plu int) (bool, error) {
 	return count > 0, nil
 }
 
+// retorna verdadeiro quando o produto está igual ao banco
 func ComparaDB(plu int, desc string, preco float64, venda int, validade int) (bool, error) {
 	db := db.ConectDb()
 	defer db.Close()
@@ -92,6 +93,7 @@ func CriaNovoProduto(descricao string, preco float64, plu, venda, validade int) 
 	db := db.ConectDb()
 
 	descricao = strings.ToUpper(descricao)
+	descricao = descricaoValida(descricao)
 
 	user := "import"
 
@@ -114,10 +116,15 @@ func EditProduct(descricao string, preco float64, plu, venda, validade int, user
 	db := db.ConectDb()
 	query := "UPDATE produtos SET descricao = ?, preco = ?, venda = ?, validade = ?, updatedAt = ?, updateBy = ? WHERE plu = ?"
 	descricao = strings.ToUpper(descricao)
-
+	descricao = descricaoValida(descricao)
 	insereDadosNoBanco, err := db.Prepare(query)
 	if err != nil {
 		fmt.Println(err.Error())
+	}
+
+	inalterado, _ := ComparaDB(plu, descricao, preco, venda, validade)
+	if inalterado {
+		return
 	}
 
 	insereDadosNoBanco.Exec(descricao, preco, venda, validade, time.Now(), user, plu)
@@ -238,4 +245,14 @@ func preencherDescricao(descricao string, tamanho int) string {
 		descricaoPreenchida += strings.Repeat(" ", tamanho-len(descricaoPreenchida))
 	}
 	return strings.ToUpper(descricaoPreenchida)
+}
+
+func descricaoValida(desc string) string {
+	caracteresInvalidos := []string{"Á", "�", "Ç", "Ã", "Õ", "Ó", "Ô", "Ò", "É", "Ê", "À", "&"}
+	caracteresValidos := []string{"A", "C", "C", "A", "O", "O", "O", "O", "E", "E", "A", "E"}
+
+	for i, char := range caracteresInvalidos {
+		desc = strings.ReplaceAll(desc, char, caracteresValidos[i])
+	}
+	return desc
 }

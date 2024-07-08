@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"strconv"
@@ -11,8 +10,6 @@ import (
 	"github.com/lucasbyte/go-clipse/db"
 	"github.com/lucasbyte/go-clipse/models"
 )
-
-var temp = template.Must(template.ParseGlob("templates/*.html"))
 
 func Index(w http.ResponseWriter, r *http.Request) {
 	todosOsProdutos := models.BuscaTodosOsProdutos()
