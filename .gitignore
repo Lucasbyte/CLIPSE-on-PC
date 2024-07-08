@@ -8,6 +8,9 @@ serial/import.go
 *.txt
 *.sum
 
+#producao
+launch.json
+
 #Arquivos gerados pelo programa e de teste
 templates/TESTE/
 SYSTEL-ARQUIVOS/

@@ -12,6 +12,9 @@
     font-weight: bold;
 }
 
+.invisivel {
+    display: none;
+}
 
 .nav-link {
     color: white !important;
